@@ -1,41 +1,34 @@
 package ru.kata.spring.boot_security.demo.entity;
+
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
     @Column(name = "role")
-    private String role;
+    private String nameRole;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_role"
             , joinColumns = @JoinColumn(name = "role_id")
             , inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> users;
+    private Set<User> users;
 
     public Role() {
     }
 
-    public Role(String role) {
-        this.role = role;
+    public Role(String nameRole) {
+        this.nameRole = nameRole;
     }
-
-    public void addUserToRole (User user) {
-        if(user==null) {
-            users = new ArrayList<>();
-            users.add(user);
-        }
-    }
-
-
 
     public Long getId() {
         return id;
@@ -45,19 +38,24 @@ public class Role {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public String getNameRole() {
+        return nameRole;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setNameRole(String nameRole) {
+        this.nameRole = nameRole;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    @Override
+    public String getAuthority() {
+        return getNameRole();
     }
 }

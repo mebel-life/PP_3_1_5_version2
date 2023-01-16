@@ -33,9 +33,9 @@
                     <td th:text="${user.getAge()}"/></td>
                     <td th:text="${user.getEmail()}"/></td>
                     <td th:text="${user.getPassword()}"/></td>
-                    <td><a th:href="@{/users/update/{id}(id=${user.getId()})}">
+                    <td><a th:href="@{/admin/update/{id}(id=${user.getId()})}">
                         <input type="submit" value="Изменить пользователя"></a></td>
-                    <td><a th:href="@{/users/delete/{id}(id=${user.getId()})}">
+                    <td><a th:href="@{/admin/delete/{id}(id=${user.getId()})}">
                         <input type="submit" value="Удалить пользователя"></a></td>
                     </td>
                 </tr>
@@ -43,7 +43,7 @@
             </table>
 
     </div>
-    <p><a href = "/users/create"><input type="submit" value="Создать пользователя"></a></p>
+    <p><a href = "admin/create"><input type="submit" value="Создать пользователя"></a></p>
 
 
 
