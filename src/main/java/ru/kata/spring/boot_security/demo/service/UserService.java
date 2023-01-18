@@ -39,6 +39,7 @@ public class UserService implements UserDetailsService {
 
    @Transactional
    public void saveUser(User user) throws Exception {
+      user.setRoles(user.getRoles());
       user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
       userRepository.save(user);
    }
@@ -55,7 +56,7 @@ public class UserService implements UserDetailsService {
 
    @Transactional
    public void updateUser(User user) {
-      user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+      user.setRoles(user.getRoles());
       userRepository.save(user);
    }
 
@@ -71,14 +72,12 @@ public class UserService implements UserDetailsService {
       if (user == null) {
          throw new UsernameNotFoundException("User not found");
       }
-      System.out.println(user.getRoles());
-      return user;
+      return new org.springframework.security.core.userdetails.User(user.getUsername(),user.getPassword(),user.getRoles());
    }
 
    @Transactional
    public User findByUsername(String username) {
-      return listUsers().stream().filter(user -> user.getUsername().equals(username)).findAny()
-              .orElse(null);
+      return userRepository.findByUsername(username);
    }
 
    @Transactional

@@ -12,6 +12,7 @@ import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.security.Principal;
+import java.util.List;
 
 
 @Controller
@@ -34,15 +35,14 @@ public class AdminController {
     }
 
     @GetMapping("/create")
-    public String createUserForm(Model model, @ModelAttribute("role") Role role,
-                                 @ModelAttribute("user") User user) {
-        model.addAttribute("roles", userService.listRoles());
-
+    public String createUserForm(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        model.addAttribute("listRoles", userService.listRoles());
         return "admin/create";
     }
     @PostMapping("/create")
     public String createUser(@ModelAttribute("user") User user) throws Exception {
-
         userService.saveUser(user);
         return "redirect:/admin";
     }
@@ -53,7 +53,8 @@ public class AdminController {
     }
     @GetMapping("/update/{id}")
     public String updateUserForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("user", userService.getUser(id)); // добавил
+        model.addAttribute("listRoles", userService.listRoles());
         return "admin/update";
     }
     @PostMapping("/update")
