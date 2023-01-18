@@ -7,7 +7,7 @@
 </head>
 <body>
 <form action="#" th:action="@{/admin/update}" th:object="${user}"
-      method="post" style="max-width: 300px; margin: 0 auto;">
+      method="post" style="max-width: 600px; margin: 0 auto;">
     <h2>Изменение пользователя</h2>
     <label for="id">ID</label>
     <input readonly type="number" th:field="*{id}" id="id" placeholder="ID">
@@ -30,7 +30,7 @@
     <br/>
     <br/>
     <label for="password">Password</label>
-    <input type="text" th:field="*{password}" id="password" placeholder="Password">
+    <input readonly type="text" th:field="*{password}" id="password" placeholder="Password">
     <br/>
     <br/>
     <div class="form-group row">
