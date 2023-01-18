@@ -30,7 +30,7 @@ public class User implements UserDetails {
 
    @Column(name = "password")
    private String password;
-   @ManyToMany(cascade = CascadeType.ALL)
+   @ManyToMany(cascade = CascadeType.PERSIST)
    @JoinTable(
            name = "user_role"
            , joinColumns = @JoinColumn(name = "user_id")
@@ -42,16 +42,6 @@ public class User implements UserDetails {
 
    public User() {}
 
-   public User(String username, String password) {
-      this.username = username;
-      this.password = password;
-   }
-
-   public User(String username, String password, Set<Role> roles) {
-      this.username = username;
-      this.password = password;
-      this.roles = roles;
-   }
 
    public User(String username, String lastName, int age, String email, String password, Set<Role> roles) {
       this.username = username;

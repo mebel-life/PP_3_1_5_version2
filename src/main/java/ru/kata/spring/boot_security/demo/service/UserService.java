@@ -38,8 +38,8 @@ public class UserService implements UserDetailsService {
 
 
    @Transactional
-   public void saveUser(User user) {
-      User userFromDB = userRepository.findByUsername(user.getUsername());
+   public void saveUser(User user) throws Exception {
+      user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
       userRepository.save(user);
    }
 
@@ -52,10 +52,13 @@ public class UserService implements UserDetailsService {
    public User getUser(Long id) {
       return userRepository.getById(id);
    }
+
    @Transactional
    public void updateUser(User user) {
+      user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
       userRepository.save(user);
    }
+
    @Transactional
    public void deleteUser(Long id) {
       userRepository.deleteById(id);
@@ -64,18 +67,22 @@ public class UserService implements UserDetailsService {
    @Override
    @Transactional
    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      User user = finByUsername(username);
-      if(user == null) {
-         throw new UsernameNotFoundException(String.format("User '%s' not found", username));
+      User user = findByUsername(username);
+      if (user == null) {
+         throw new UsernameNotFoundException("User not found");
       }
-
-      return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+      System.out.println(user.getRoles());
+      return user;
    }
 
-   private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-      return roles.stream().map(role -> new SimpleGrantedAuthority(role.getNameRole())).collect(Collectors.toList());
+   @Transactional
+   public User findByUsername(String username) {
+      return listUsers().stream().filter(user -> user.getUsername().equals(username)).findAny()
+              .orElse(null);
    }
-   public User finByUsername(String username) {
-      return userRepository.findByUsername(username);
+
+   @Transactional
+   public List<Role> listRoles() {
+      return roleRepository.findAll();
    }
 }

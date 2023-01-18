@@ -17,6 +17,14 @@
     <input type="text" th:field="*{email}" id="email" placeholder="Email">
     <label for="password">Password</label>
     <input type="text" th:field="*{password}" id="password" placeholder="Password">
+
+    <label for="role">Выберите роль</label>
+    <select th:object="${role}" th:field="*{id}" id="role">
+        <optional th:each="role : ${roles}" th:value="${role.getId()}"
+        th:text="${role.getNameRole()}"></optional>
+
+
+    </select>
     <input type="submit" value="Create User">
 
 </form>

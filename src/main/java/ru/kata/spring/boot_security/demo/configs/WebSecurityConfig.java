@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
-
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,10 +26,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http    .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/").not().fullyAuthenticated()
-                //.antMatchers("/").permitAll() //отпрвка аутенфикации со всех страниц
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("admin/**").hasRole("ADMIN")
+                .antMatchers("user").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/","index").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -43,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutUrl("/logout")
                 .permitAll();
+
     }
 
     // аутентификация inMemory
@@ -62,6 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -69,4 +68,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationProvider.setUserDetailsService(userService);
         return authenticationProvider;
     }
+
 }
