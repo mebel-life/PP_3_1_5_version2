@@ -28,17 +28,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/","index").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-//                .passwordParameter("password")
-//                .usernameParameter("email")
+                .loginPage("/login")
+                .passwordParameter("password")
+                .usernameParameter("email")
                 .successHandler(successUserHandler)//обработчик успешной аутенфикации
                 .permitAll()
                 .and()
                 .logout()
                 .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
                 .permitAll();
 
     }
