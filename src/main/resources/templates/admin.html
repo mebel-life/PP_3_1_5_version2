@@ -220,7 +220,7 @@
                                                                                     <option th:each="role: ${rolesAdd}"
                                                                                             th:value="${role.getId()}">
                                                                                         <th:block
-                                                                                                th:text="${role.getNameRole()}">
+                                                                                                th:text="${role.getName()}">
                                                                                         </th:block>
                                                                                     </option>
                                                                                 </select>
@@ -411,7 +411,7 @@
                                                                 multiple size="2">
                                                             <option th:each="role: ${rolesAdd}"
                                                                     th:value="${role.getId()}">
-                                                                <th:block th:text="${role.getNameRole()}">
+                                                                <th:block th:text="${role.getName()}">
                                                                 </th:block>
                                                             </option>
                                                         </select>
