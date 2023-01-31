@@ -2,6 +2,7 @@ package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.entity.Role;
@@ -26,8 +27,8 @@ public class RestApiController {
 
     //Возвращаем юзера для заполнения форм страницы user_only_info
     @GetMapping("/api/user")
-    public ResponseEntity<User> getUser(Principal principal) {
-        return new ResponseEntity<>(userService.findByEmail(principal.getName()), HttpStatus.OK);
+    public ResponseEntity<User> getUser(@AuthenticationPrincipal User user) {
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     //Возвращаем спилок существующих ролей
@@ -43,7 +44,7 @@ public class RestApiController {
     }
 
     @PostMapping(value = "/api/admin")
-    public ResponseEntity<User> addUserAction(@RequestBody User user) throws Exception {
+    public ResponseEntity<User> addUserAction(@RequestBody User user) {
         userService.saveUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

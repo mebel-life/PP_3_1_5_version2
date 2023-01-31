@@ -19,7 +19,7 @@ public class UserController {
     @GetMapping("/user")
     public ModelAndView userPage() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("user_info");
+        modelAndView.setViewName("user");
         return modelAndView;
     }
 }

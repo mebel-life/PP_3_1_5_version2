@@ -27,8 +27,8 @@ public class UserService implements UserDetailsService {
 
 
     @Transactional
-    public void saveUser(User user) throws Exception {
-        user.setRoles(user.getRoles());
+    public void saveUser(User user) {
+//        user.setRoles(user.getRoles());
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -45,7 +45,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void updateUser(User user) {
-        user.setRoles(user.getRoles());
+//        user.setRoles(user.getRoles());
         userRepository.save(user);
     }
 
