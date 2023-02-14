@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+        //хуй с горы
 @Table(name = "users")
 public class User implements UserDetails {
 
